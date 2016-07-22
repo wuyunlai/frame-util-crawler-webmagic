@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Calendar;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -43,9 +44,13 @@ public class DownloadUtils{
 				} catch (IllegalStateException e) {
 					// TODO Auto-generated catch block
 					logger.error(e.getClass().getName()+" : "+e.getMessage());
+					in.close();
+					in = null;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					logger.error(e.getClass().getName()+" : "+e.getMessage());
+					in.close();
+					in = null;
 				}
 				if(in!=null){//如果得到文件流
 					StringBuffer sb = new StringBuffer();
@@ -67,11 +72,18 @@ public class DownloadUtils{
 					FileOutputStream fout = new FileOutputStream(file);
 					int l = -1;
 					byte[] tmp = new byte[1024];
+					Calendar ca = Calendar.getInstance();
+					long time = ca.getTimeInMillis();
 					while ((l = in.read(tmp)) != -1) {
 						fout.write(tmp,0,l);
+						/*if(ca.getTimeInMillis()-time>10000){
+							in.close();
+							break;
+						}*/
 					}
 					fout.flush();
 					fout.close();
+					in.close();
 				}
 			}else{
 				logger.error("statusCode["+statusCode+"]:fileUrl:"+fileUrl);

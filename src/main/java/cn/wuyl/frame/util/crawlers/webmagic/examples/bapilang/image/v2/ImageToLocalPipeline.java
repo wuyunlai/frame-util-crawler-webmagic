@@ -46,9 +46,24 @@ public class ImageToLocalPipeline extends abstractFilePersistentBase implements 
         			||title.toLowerCase().indexOf("coffee")>0||title.toLowerCase().indexOf("hardtied")>0
         			||title.toLowerCase().indexOf("fuckmachine")>0||title.toLowerCase().indexOf("choye")>0
         			||title.toLowerCase().indexOf("latex")>0||title.toLowerCase().indexOf("zlata")>0
-//        		||title.indexOf("动图")>0||title.indexOf("动态图")>0
-//        		||title.indexOf("GIF")>0||title.toLowerCase().indexOf("gif")>0
-        			||title.indexOf("虐")>0||title.indexOf("禁")>0||title.indexOf("兽")>0||title.indexOf("触手")>0||title.indexOf("崩坏")>0
+        		||title.indexOf("动图")>0||title.indexOf("动态图")>0
+        		||title.indexOf("GIF")>0||title.toLowerCase().indexOf("gif")>0
+    			||title.indexOf("虐")>0||title.indexOf("禁")>0||title.indexOf("兽")>0||title.indexOf("触手")>0||title.indexOf("崩坏")>0
+    			||title.indexOf("宅配便")>0||title.indexOf("仆")>0||title.indexOf("僕")>0||title.indexOf("纳屋")>0||title.indexOf("对魔忍")>0
+    			||title.indexOf("牛奶猎人")>0||title.indexOf("怪物猎人")>0||title.indexOf("地下奸禁")>0||title.indexOf("好胜的女人")>0||title.indexOf("害羞的女佣")>0
+    			||title.indexOf("牧部")>0||title.indexOf("S女子会")>0||title.indexOf("肉便器")>0||title.indexOf("强制")>0||title.indexOf("绝顶装置")>0
+    			||title.indexOf("女骑士")>0||title.indexOf("捕缚凌辱")>0||title.indexOf("白的欲望")>0||title.indexOf("堀江耽闺")>0||title.indexOf("堕天使")>0
+    			||title.indexOf("饭尾嘉和")>0||title.indexOf("灰司")>0||title.indexOf("少年复仇调教计划")>0||title.indexOf("凛")>0||title.indexOf("夜欲棒逆")>0
+    			||title.indexOf("人妻里子")>0||title.indexOf("牝")>0||title.indexOf("东云龙")>0||title.indexOf("百花凌乱")>0||title.indexOf("触装天使")>0
+    			||title.indexOf("Lost In An ApeWorld")>0||title.indexOf("闷絕")>0||title.indexOf("堕妻")>0||title.indexOf("小2小7")>0||title.indexOf("高津")>0
+    			||title.indexOf("淫荡痴女公主主导的性游戏")>0||title.toLowerCase().indexOf("inairi kinzou")>0||title.indexOf("后藤晶")>0||title.indexOf("少年的时间")>0||title.indexOf("铃谷拘辱")>0
+    			||title.indexOf("雷神会")>0||title.indexOf("马辱夫人")>0||title.indexOf("桃屋")>0||title.indexOf("U.R.C")>0||title.indexOf("真空病栋")>0
+    			||title.indexOf("东方")>0||title.indexOf("飞燕")>0||title.toLowerCase().indexOf("shizuka")>0||title.indexOf("調教")>0||title.indexOf("新道一")>0
+    			||title.indexOf("魔界留学")>0||title.indexOf("淫肉悦聲")>0||title.indexOf("秋神")>0||title.indexOf("小邑紗希")>0||title.indexOf("M女")>0
+    			||title.indexOf("痴女之巢")>0||title.indexOf("井上")>0||title.indexOf("乳胶")>0||title.indexOf("钢铁")>0||title.indexOf("地狱")>0
+    			||title.indexOf("监狱")>0||title.toLowerCase().indexOf("naburu")>0||title.indexOf("淫獸")>0||title.indexOf("淫虐")>0||title.indexOf("甘竹朱郎")>0
+    			||title.indexOf("让人能随时做爱的神器")>0||title.indexOf("请你在强奸我一次")>0||title.indexOf("東方")>0||title.indexOf("満珍楼")>0||title.indexOf("紫恩")>0
+    			||title.indexOf("蟲")>0||title.indexOf("特殊性癖")>0||title.indexOf("特殊器械")>0
 //        		||title.indexOf("阿里布达")>0||title.indexOf("妖")>0||title.indexOf("变装")>0
 //        		||title.indexOf("间谍")>0||title.indexOf("教师")>0||title.indexOf("护士")>0||title.indexOf("空姐")>0
         			)){
@@ -83,13 +98,14 @@ public class ImageToLocalPipeline extends abstractFilePersistentBase implements 
         				String extName=com.google.common.io
         						.Files.getFileExtension(imageUrl);
         				try{
-        					logger.log("directory[" + fileStoreDirectory + "] 's download images[" + imageUrl + "] download begin...");
+        					logger.log("directory[" + fileStoreDirectory + "] 's download images[" + imageUrl + "] to [" + i + "." + extName +"] download begin...");
         					//这里通过httpclient下载之前抓取到的图片网址，并放在对应的文件中
         					DownloadUtils.GenerateImage(fileStoreDirectory
         							, i+"", imageUrl);
         					logger.log("directory[" + fileStoreDirectory + "] 's download images[" + imageUrl + "] to [" + i + "." + extName +"] download success!");
         				}catch(Exception e){
         					logger.log(e.getMessage(),"ERROR");
+        					break;
         				}
         			}
         			logger.log("directory[" + fileStoreDirectory + "] 's files["+fileCount+"] is not download complete! images[" + imageUrlList.size() + "] download begin...");

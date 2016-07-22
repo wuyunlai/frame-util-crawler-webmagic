@@ -19,12 +19,12 @@ import us.codecraft.webmagic.processor.PageProcessor;
 public class ImagePageProcesser extends abstractPageProcesser implements PageProcessor {
     protected ILogger logger = new Logger(getClass());
 
-    private static String count = "12";
+    private static String count = "13";
     private static String domain = "http://www.bapilang.link";
     private static String fileDirectoryPath = "E:\\crawler\\data\\webmagic\\image\\";
     private static String startUrl = "http://www.bapilang.link/tchy/"+count+"/1.html";//"http://www.bapilang.link/rzqhkb/443411.html";//"http://www.bapilang.link/rzqhkb/432524.html";//"http://www.bapilang.link/rzqhkb/431074.html";//
 	private static String chartSet = "utf-8";
-	private static int threadNum = 1;
+	private static int threadNum = 3;
 	private static int retryTimes = 3;
 	private static int sleepTime = 1000;
 	
