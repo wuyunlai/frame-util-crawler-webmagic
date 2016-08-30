@@ -9,14 +9,14 @@ import java.util.Map;
 import cn.wuyl.frame.util.crawlers.webmagic.downloader.HttpClientDownloader;
 import cn.wuyl.frame.util.crawlers.webmagic.log.ILogger;
 import cn.wuyl.frame.util.crawlers.webmagic.log.Logger;
-import cn.wuyl.frame.util.crawlers.webmagic.processor.abstractPageProcesser;
+import cn.wuyl.frame.util.crawlers.webmagic.processor.AbstractBaseProcesser;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-public class ImagePageProcesser extends abstractPageProcesser implements PageProcessor {
+public class ImagePageProcesser extends AbstractBaseProcesser implements PageProcessor {
     protected ILogger logger = new Logger(getClass());
 
     private static String count = "13";
@@ -26,7 +26,7 @@ public class ImagePageProcesser extends abstractPageProcesser implements PagePro
 	private static String chartSet = "utf-8";
 	private static int threadNum = 3;
 	private static int retryTimes = 3;
-	private static int sleepTime = 1000;
+	private static int sleepTime = 10*1000;
 	
     
 	private Site site = Site.me().setDomain(domain).setCharset(chartSet).setRetryTimes(retryTimes).setSleepTime(sleepTime);

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import cn.wuyl.frame.util.crawlers.webmagic.log.Logger;
 
 public class DownloadUtils{
 	static Logger logger = new Logger(DownloadUtils.class);
+	static int max_download_time = 10*1000;
 	
     @SuppressWarnings("deprecation")
 	public static boolean GenerateImage(String fileStorePath, String filename, String fileUrl){//对字节数组字符串进行Base64解码并生成图片
@@ -30,6 +32,7 @@ public class DownloadUtils{
     	HttpResponse response = null;
         int statusCode=0;
         InputStream in = null;
+        FileOutputStream fout = null;
 		HttpGet httpget = new HttpGet(fileUrl);
 		try {
 //			HttpParams params = httpclient.getParams();
@@ -55,35 +58,23 @@ public class DownloadUtils{
 				if(in!=null){//如果得到文件流
 					StringBuffer sb = new StringBuffer();
 					StringBuffer imgFileDirectory =sb.append(fileStorePath);
-					File fileDirectory = new File(imgFileDirectory.toString());
+					/*File fileDirectory = new File(imgFileDirectory.toString());
 					if (!fileDirectory.exists()) {//文件路径不存在
 						fileDirectory.mkdirs();//创建文件夹
-					}
+					}*/
 					
 					String extName=com.google.common.io
 							.Files.getFileExtension(fileUrl);//文件类型后缀
 					StringBuffer imgFileName = imgFileDirectory.append(filename).append(".").append(extName);
 					
-					File file = new File(imgFileName.toString());
+					/*File file = new File(imgFileName.toString());
 					if(!file.exists()){//文件不存在
 						file.createNewFile();//创建文件
-					}
+					}*/
+					File file = getFile(imgFileName.toString());
 					
-					FileOutputStream fout = new FileOutputStream(file);
-					int l = -1;
-					byte[] tmp = new byte[1024];
-					Calendar ca = Calendar.getInstance();
-					long time = ca.getTimeInMillis();
-					while ((l = in.read(tmp)) != -1) {
-						fout.write(tmp,0,l);
-						/*if(ca.getTimeInMillis()-time>10000){
-							in.close();
-							break;
-						}*/
-					}
-					fout.flush();
-					fout.close();
-					in.close();
+					fout = new FileOutputStream(file);
+					outputFile(in,fout);
 				}
 			}else{
 				logger.error("statusCode["+statusCode+"]:fileUrl:"+fileUrl);
@@ -96,7 +87,15 @@ public class DownloadUtils{
 			logger.error(e.getClass().getName()+" : "+e.getMessage());
 		} finally {
 			try {
-				in.close();
+				if(in != null)
+					in.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.error(e.getClass().getName()+" : "+e.getMessage());
+			}
+			try {
+				if(fout != null)
+					fout.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				logger.error(e.getClass().getName()+" : "+e.getMessage());
@@ -107,7 +106,7 @@ public class DownloadUtils{
 
     }
     
-	public static boolean GenerateImage2(String fileStorePath, String filename, String imgStr){//对字节数组字符串进行Base64解码并生成图片
+/*	public static boolean GenerateImage2(String fileStorePath, String filename, String imgStr){//对字节数组字符串进行Base64解码并生成图片
     	boolean rtn = true;
 		try {
 				if(imgStr!=null){//如果得到文件流
@@ -143,6 +142,61 @@ public class DownloadUtils{
 
 		return rtn;
 
-    }
+    }*/
+	
+	public static boolean outputFile(InputStream in,OutputStream out) throws IOException{
+		boolean rtn = true;
+		Calendar ca = Calendar.getInstance();
+		long time = ca.getTimeInMillis();
+		logger.log("[DownloadUtils][outputFile] begin at " + ca.getTime().toLocaleString());
+		int l = -1;
+		byte[] tmp = new byte[1024];
+		while ((l = in.read(tmp)) != -1) {
+			out.write(tmp,0,l);
+			long pass = System.currentTimeMillis()-time;
+			if(pass > max_download_time){
+				logger.log("[DownloadUtils][outputFile] break after [" + pass +  "] at " + ca.getTime().toLocaleString());
+				rtn = false;
+				//in.close();
+				break;
+			}
+			logger.debug("[DownloadUtils][outputFile] read continue [" + pass +  "] at " + ca.getTime().toLocaleString());
+		}
+		if(rtn){
+			out.flush();
+			out.close();
+			in.close();
+		}
+		logger.log("[DownloadUtils][outputFile] finished..." + ca.getTime().toLocaleString());
+		return rtn;
+	}
     
+	//---copy from us.codecraft.webmagic.utils.FilePersistentBase-----------------------------------------------------------------------------------------
+    public static String PATH_SEPERATOR = "/";
+	
+    /**
+     * 得到文件对象同时检查并创建目录
+     * @param fullName 带路径文件名
+     * @return
+     */
+    public static File getFile(String fullName) {
+        checkAndMakeParentDirecotry(fullName);
+        return new File(fullName);
+    }
+
+    /**
+     * 检查并创建目录
+     * @param fullName 文件名或者文件路径
+     */
+    public static void checkAndMakeParentDirecotry(String fullName) {
+        int index = fullName.lastIndexOf(PATH_SEPERATOR);
+        if (index > 0) {
+            String path = fullName.substring(0, index);
+            File file = new File(path);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+        }
+    }
+
 }

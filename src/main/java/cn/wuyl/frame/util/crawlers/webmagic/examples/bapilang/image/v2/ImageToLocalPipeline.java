@@ -7,13 +7,13 @@ import java.util.Map;
 import cn.wuyl.frame.util.crawlers.webmagic.Constant;
 import cn.wuyl.frame.util.crawlers.webmagic.log.ILogger;
 import cn.wuyl.frame.util.crawlers.webmagic.log.Logger;
+import cn.wuyl.frame.util.crawlers.webmagic.pipeline.AbstractFilePipeline;
 import cn.wuyl.frame.util.crawlers.webmagic.utils.DownloadUtils;
-import cn.wuyl.frame.util.crawlers.webmagic.utils.abstractFilePersistentBase;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
 
-public class ImageToLocalPipeline extends abstractFilePersistentBase implements Pipeline {
+public class ImageToLocalPipeline extends AbstractFilePipeline implements Pipeline {
 
     protected ILogger logger = new Logger(getClass());
     String fileStorePath = this.path;
@@ -39,8 +39,8 @@ public class ImageToLocalPipeline extends abstractFilePersistentBase implements 
         			||title.indexOf("绑")>0||title.indexOf("缚")>0||title.indexOf("绳")>0||title.indexOf("调教")>0
         			||title.indexOf("链")>0||title.indexOf("铐")>0||title.indexOf("锁")>0||title.indexOf("胶衣")>0||title.indexOf("女王")>0
         			||title.indexOf("重口")>0||title.indexOf("奴")>0||title.indexOf("犬")>0||title.indexOf("蜘蛛")>0||title.indexOf("辱")>0
-        			||title.toLowerCase().indexOf("sm")>0||title.toLowerCase().indexOf("bondage")>0
-        			||title.toLowerCase().indexOf("shibary")>0||title.toLowerCase().indexOf("kb")>0
+        			||title.toLowerCase().indexOf("sm")>0||title.toLowerCase().indexOf("bondage")>0||title.indexOf("X-City")>0
+        			||title.toLowerCase().indexOf("shibary")>0||title.toLowerCase().indexOf("kb")>0||title.toLowerCase().indexOf("x-city")>0
         			||title.toLowerCase().indexOf("houseoftaboo")>0||title.toLowerCase().indexOf("kink")>0
         			||title.toLowerCase().indexOf("house")>0||title.toLowerCase().indexOf("taboo")>0
         			||title.toLowerCase().indexOf("coffee")>0||title.toLowerCase().indexOf("hardtied")>0
@@ -105,6 +105,7 @@ public class ImageToLocalPipeline extends abstractFilePersistentBase implements 
         					logger.log("directory[" + fileStoreDirectory + "] 's download images[" + imageUrl + "] to [" + i + "." + extName +"] download success!");
         				}catch(Exception e){
         					logger.log(e.getMessage(),"ERROR");
+        					logger.log("directory[" + fileStoreDirectory + "] 's download images[" + imageUrl + "] to [" + i + "." + extName +"] download skip!");
         					break;
         				}
         			}

@@ -6,7 +6,7 @@ import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.processor.PageProcessor;
 
-public abstract class abstractPageProcesser implements PageProcessor {
+public abstract class AbstractBaseProcesser implements PageProcessor {
     protected ILogger logger = new Logger(getClass());
 
 	public abstract void process(Page page);
